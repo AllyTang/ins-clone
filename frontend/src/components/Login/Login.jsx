@@ -10,6 +10,9 @@ import {
 } from "./Login.styles";
 import instagram from "../../assets/images/instagram-logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { setAuthToken } from "../../apiConfig";
+
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -21,7 +24,7 @@ const Login = () => {
     let obj = { ...formData, [key]: e.target.value };
     setFormData(obj);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("formData", formData);
     const unfilledFields = Object.keys(formData).filter(
@@ -31,9 +34,17 @@ const Login = () => {
       setError(`${unfilledFields.join(" ")} is required`);
       return;
     }
-    console.log("ready to login");
-    //Redirect to the home page
-    navigate("/home");
+    try {
+      const url = "http://localhost:8000/api/auth/login";
+      const response = await axios.post(url, formData);
+      console.log(response.data);
+      setAuthToken(response.data.token);
+      setFormData({ username: "", password: "" });
+      navigate("/home");
+    } catch (error) {
+      console.error("Error logging in:", error.response.data);
+      setError(error.response.data.message);
+    }
   };
 
   return (
