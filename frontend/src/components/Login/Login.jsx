@@ -12,8 +12,11 @@ import instagram from "../../assets/images/instagram-logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setAuthToken } from "../../apiConfig";
+import { useDispatch } from "react-redux";
+import { saveUserID } from "../../Redux/UserData";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -39,6 +42,7 @@ const Login = () => {
       const response = await axios.post(url, formData);
       console.log(response.data);
       setAuthToken(response.data.token);
+      dispatch(saveUserID(response.data.userID));
       setFormData({ username: "", password: "" });
       navigate("/home");
     } catch (error) {
