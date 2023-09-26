@@ -8,7 +8,7 @@ export const Container = styled.div`
 
 export const InfoContainer = styled.div`
   display: flex;
-  align-item: center;
+  align-items: center;
   justify-content: space-around;
   max-width: 620px;
   margin: 30px auto;
@@ -29,10 +29,12 @@ export const InfoContainer = styled.div`
     object-fit: contain;
     border: 1px solid #ebdddd;
   }
+
   .verified {
     color: royalblue;
     margin: 0 5px;
   }
+
   @media (max-width: 500px) {
     img {
       width: 100px;
@@ -58,11 +60,10 @@ export const Info = styled.div`
 
 export const Stats = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin: 12px 0;
 `;
-
 export const Bio = styled.div`
   p {
     margin: 2px 0;
@@ -80,7 +81,7 @@ export const PostGrid = styled.div`
   grid-template-columns: repeat(3, minmax(0, 1fr));
   grid-gap: 7px;
 
-  .empty-post-section {
+  #empty-post-section {
     position: absolute;
     left: 45%;
     color: gray;
@@ -92,11 +93,75 @@ export const PostGrid = styled.div`
     position: relative;
     cursor: pointer;
     border-radius: 5px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      object-fit: cover;
+    }
+
+    .overlay {
+      background: linear-gradient(50deg, #d6249f, #285aeb);
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      position: absolute;
+      transition: all 0.2s;
+    }
+
+    &:hover {
+      .overlay {
+        opacity: 0.4;
+      }
+    }
   }
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 2px;
-    object-fit: cover;
+
+  @media (max-width: 500px) {
+    grid-gap: 2px;
   }
+`;
+
+export const FormContainer = styled.div`
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+export const FormLabel = styled.label`
+  display: block;
+  margin-bottom: 5px;
+`;
+
+export const FormInput = styled.input`
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+export const FormButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+export const LoadIcon = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fontsize: 18px;
+`;
+export const ErrMessage = styled.p`
+  color: red;
 `;

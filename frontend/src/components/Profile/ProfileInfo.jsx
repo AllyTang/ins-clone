@@ -1,17 +1,25 @@
 import { useParams } from "react-router-dom";
-import { InfoContainer, Info, Stats, Bio } from "./Profile.styles";
+import { InfoContainer, Info, Stats, Bio, LoadIcon } from "./Profile.styles";
 import { initialState as profileData } from "../../Redux/ProfileData";
 import { initialState as postData } from "../../Redux/PostData";
 import CheckCircle from "@mui/icons-material/CheckCircle";
+import { Fragment, useState } from "react";
+import CreateProfile from "./CreateProfile";
 const ProfileInfo = () => {
   const { id } = useParams();
   console.log("id", id);
   let filteredPosts = postData.filter((post) => {
     return post.userID === id;
   });
+  const [profile, setProfile] = useState(null);
+  const [isProfileCreated, setIsProfileCreated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  if (isLoading) {
+    return <LoadIcon>Loading...</LoadIcon>;
+  }
   return (
-    <>
-      {profileData[id] ? (
+    <Fragment>
+      {profile ? (
         <InfoContainer>
           <img src={profileData[id].profilePic} alt="profile picture" />
           <Info>
@@ -43,12 +51,10 @@ const ProfileInfo = () => {
         </InfoContainer>
       ) : (
         <InfoContainer>
-          <h2>
-            Sorry, User with id <span>{id}</span> Does not Exist!
-          </h2>
+          <CreateProfile userID={id} />
         </InfoContainer>
       )}
-    </>
+    </Fragment>
   );
 };
 
