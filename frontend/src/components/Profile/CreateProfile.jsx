@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   FormContainer,
   FormButton,
@@ -7,7 +7,8 @@ import {
   ErrMessage,
 } from "./Profile.styles";
 import { axiosInstance } from "../../apiConfig";
-export default function CreateProfile({ userID }) {
+// eslint-disable-next-line react/prop-types
+export default function CreateProfile({ userID, setIsProfileCreated }) {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -47,6 +48,7 @@ export default function CreateProfile({ userID }) {
         formDataToSubmit,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
+      setIsProfileCreated(true);
       console.log("profile uploaded successfully:", response.data);
     } catch (error) {
       console.error("Error uploading profile:", error);

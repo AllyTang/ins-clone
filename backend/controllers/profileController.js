@@ -54,9 +54,24 @@ const getAllProfiles = (req, res) => {
       return res.status(500).json({ message: "Internal server error" });
     });
 };
+const getProfileImage = async (req, res) => {
+  try {
+    const userID = req.params.userID;
+    const profile = await Profile.findOne({ userID });
+    if (!profile || !profile.profilePic) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+    res.contentType("image/png");
+    res.send(profile.profilePic);
+  } catch (error) {
+    console.error("Error fetching image:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   createProfile,
   getUserProfile,
   getAllProfiles,
+  getProfileImage,
 };
