@@ -1,9 +1,10 @@
 import { PostGrid } from "./Profile.styles";
-import { initialState as postData } from "../../Redux/PostData";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProfilePosts = () => {
   const { id } = useParams();
+  const postData = useSelector((state) => state.post.postData);
   let filteredPosts = postData.filter((post) => {
     return post.userID === id;
   });

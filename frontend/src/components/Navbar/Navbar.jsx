@@ -13,15 +13,18 @@ const Navbar = () => {
   const searchValue = useRef();
   const userID = useSelector((state) => state.user.userID);
   const profiles = useSelector((state) => state.profile.profileData);
-  const isProfileAvaliable =
-    profiles.length && profiles.filter((profile) => profile.userID === userID);
+  const currentProfile = profiles.length
+    ? profiles.filter((profile) => profile.userID === userID)
+    : null;
   const [dropdownState, setDropdownState] = useState(false);
   const [imgPath, setImgPath] = useState("");
 
   useEffect(() => {
-    const url = `http://localhost:8000/api/profiles/image/${userID}`;
-    setImgPath(url);
-  }, [isProfileAvaliable, userID]);
+    if (currentProfile) {
+      const url = `http://localhost:8000/api/profiles/image/${userID}`;
+      setImgPath(url);
+    }
+  }, [currentProfile, userID]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +78,11 @@ const Navbar = () => {
             </div>
             <div className="dropdown-menu">
               <img
-                src={isProfileAvaliable ? imgPath : defaultIcon}
+                src={
+                  currentProfile && currentProfile.length
+                    ? imgPath
+                    : defaultIcon
+                }
                 alt="profile-pic"
                 onClick={handleDropdownClick}
               />

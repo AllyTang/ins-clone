@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
 import { InfoContainer, Info, Stats, Bio, LoadIcon } from "./Profile.styles";
-import { initialState as postData } from "../../Redux/PostData";
 import CheckCircle from "@mui/icons-material/CheckCircle";
 import { Fragment, useEffect, useState } from "react";
 import CreateProfile from "./CreateProfile";
 import axios from "axios";
+import { useSelector } from "react-redux";
+
 const ProfileInfo = () => {
   const { id } = useParams();
   console.log("id", id);
+  const postData = useSelector((state) => state.post.postData);
   let filteredPosts = postData.filter((post) => {
     return post.userID === id;
   });

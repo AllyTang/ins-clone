@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const postSchema = new mongoose.Schema({
-  userID: { type: String, required: true, unique: true },
+  userID: { type: String, required: true },
   profilePic: { type: String },
   location: { type: String },
   postLink: { type: Buffer },
@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
   isLiked: { type: Boolean },
   caption: { type: String },
   comments: { type: String },
-  postID: { type: Number },
+  postID: { type: Number, required: true, unique: true },
 });
 
 const Post = mongoose.model("Post", postSchema); //posts
