@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema({
   likes: { type: String },
   isLiked: { type: Boolean },
   caption: { type: String },
-  comments: { type: String },
+  comments: { type: Array },
   postID: { type: Number, required: true, unique: true },
 });
 
