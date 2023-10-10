@@ -36,9 +36,22 @@ export const postDataSlice = createSlice({
         icon.classList.remove("active");
       }, 700);
     },
+    postComment: (state, action) => {
+      const updatedPost = action.payload;
+      const postIndex = state.postData.findIndex(
+        (post) => post.postID === updatedPost.postID
+      );
+      if (postIndex !== -1) {
+        state.postData[postIndex] = updatedPost;
+      }
+    },
   },
 });
 
-export const { savePostData, handleLikeSingleClick, handleLikeDoubleClick } =
-  postDataSlice.actions;
+export const {
+  savePostData,
+  handleLikeSingleClick,
+  handleLikeDoubleClick,
+  postComment,
+} = postDataSlice.actions;
 export default postDataSlice.reducer;

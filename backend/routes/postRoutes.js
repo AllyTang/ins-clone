@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticateToken = require("../middlewares/authMiddleware");
 const {
   getAllPosts,
   createPost,
@@ -8,7 +9,7 @@ const {
 const router = express.Router();
 
 router.get("/", getAllPosts);
-router.post("/", createPost);
+router.post("/", authenticateToken, createPost);
 router.get("/image/:id", getPostImage);
-router.put("/:id", updatePosts);
+router.put("/:id", authenticateToken, updatePosts);
 module.exports = router;

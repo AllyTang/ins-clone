@@ -1,5 +1,5 @@
 import { PostGrid } from "./Profile.styles";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const ProfilePosts = () => {
@@ -11,11 +11,17 @@ const ProfilePosts = () => {
   return (
     <PostGrid>
       {filteredPosts.length ? (
-        filteredPosts.map((post, index) => {
+        filteredPosts.map((post) => {
           return (
-            <div key={`${index}-${post.userID}`}>
-              <img src={post.postLink} alt="post" />
-            </div>
+            <Link key={post.postID} to={`/profile/${id}`}>
+              <div>
+                <div className="overlay"></div>
+                <img
+                  alt="post"
+                  src={`http://localhost:8000/api/posts/image/${post._id}`}
+                />
+              </div>
+            </Link>
           );
         })
       ) : (

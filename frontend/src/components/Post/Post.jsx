@@ -13,13 +13,14 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   handleLikeSingleClick,
   handleLikeDoubleClick,
+  postComment,
 } from "../../Redux/PostData";
 
 export default function Post() {
   const dispatch = useDispatch();
   const allPosts = useSelector((state) => state.post.postData);
   const userID = useSelector((state) => state.user.userID);
-  const [comment, setComment] = useState(() => "");
+  const [comment, setComment] = useState({});
 
   const updatePostData = async (id, updatedObj) => {
     try {
@@ -30,13 +31,18 @@ export default function Post() {
     }
   };
   const handlePostComment = (postData, text) => {
+    let updatedPost = {
+      ...postData,
+      comments: [...postData["comments"], [userID, text]],
+    };
+    dispatch(postComment(updatedPost));
     let updatedObj = {
       comments: [...postData["comments"], [userID, text]],
       isLiked: postData.isLiked,
       likes: postData.likes,
     };
     updatePostData(postData._id, updatedObj);
-    setComment("");
+    setComment((prevComments) => ({ ...prevComments, [postData._id]: "" }));
   };
 
   const handlePostLikes = (type, postData) => {
@@ -63,6 +69,10 @@ export default function Post() {
       comments: [...postData.comments],
     };
     updatePostData(postData._id, updatedObj);
+  };
+  const handleCommentLike = (event) => {
+    let color = event.target.style.color;
+    event.target.style.color = color === "tomato" ? "#2f2d2d" : "tomato";
   };
   return (
     <Container>
@@ -119,7 +129,32 @@ export default function Post() {
                     <a href="#">...more</a>
                   </span>
                 </Caption>
-                <Comments></Comments>
+                <Comments>
+                  {post.comments && post.comments.length !== 0 ? (
+                    <>
+                      {post.comments.map((comment, i) => {
+                        return (
+                          <li key={`${i}-${comment[0]}`}>
+                            <div>
+                              <Link to={`/profile/${comment[0]}`}>
+                                <p className="user">{comment[0]}</p>
+                              </Link>
+                              <p className="comment">{comment[1]}</p>
+                            </div>
+                            <div>
+                              <FavoriteIcon
+                                style={{ fontSize: 12 }}
+                                onClick={handleCommentLike}
+                              />
+                            </div>
+                          </li>
+                        );
+                      })}
+                    </>
+                  ) : (
+                    <p className="empty-comment-box">No Comments Yet!</p>
+                  )}
+                </Comments>
                 <CommentInput>
                   <SentimentSatisfiedOutlinedIcon />
                   <form>
@@ -127,11 +162,21 @@ export default function Post() {
                       className={`comment-input-${post.postID}`}
                       type="text"
                       placeholder="Add a comment..."
-                      value={comment}
-                      onChange={(e) => setComment(() => e.target.value)}
+                      value={comment[post._id] || ""}
+                      onChange={(e) =>
+                        setComment((prevComments) => ({
+                          ...prevComments,
+                          [post._id]: e.target.value,
+                        }))
+                      }
                     />
                   </form>
-                  <a href="#" onClick={() => handlePostComment(post, comment)}>
+                  <a
+                    href="#"
+                    onClick={() =>
+                      handlePostComment(post, comment[post._id]) || ""
+                    }
+                  >
                     Post
                   </a>
                 </CommentInput>

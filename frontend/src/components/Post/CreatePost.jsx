@@ -56,7 +56,7 @@ export default function CreatePost() {
     );
     formDataToSubmit.append("likes", formData.likes);
     formDataToSubmit.append("isLiked", formData.isLiked);
-    formDataToSubmit.append("comments", formData.comments);
+    formDataToSubmit.append("comments", JSON.stringify(formData.comments));
     formDataToSubmit.append("postID", formData.postID);
     try {
       await axiosInstance.post("/api/posts", formDataToSubmit, {
