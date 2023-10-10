@@ -13,15 +13,15 @@ const ProfilePosts = () => {
       {filteredPosts.length ? (
         filteredPosts.map((post) => {
           return (
-            <Link key={post.postID} to={`/profile/${id}`}>
-              <div>
-                <div className="overlay"></div>
-                <img
-                  alt="post"
-                  src={`http://localhost:8000/api/posts/image/${post._id}`}
-                />
-              </div>
-            </Link>
+            // <Link key={post.postID} to={`/profile/${id}`}>
+            <div key={post.postID}>
+              <div className="overlay"></div>
+              <img
+                alt="post"
+                src={`http://localhost:8000/api/posts/image/${post._id}`}
+              />
+            </div>
+            // </Link>
           );
         })
       ) : (
