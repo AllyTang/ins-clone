@@ -14,7 +14,7 @@ Developed a full-stack web application inspired by Instagram
    npm install
 
 2.  **Running the application**:
-   npm start
+   npm run dev
 
 ## React + Vite
 
